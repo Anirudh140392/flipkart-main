@@ -216,6 +216,13 @@ const CampaignsComponent = () => {
         })();
     }, [getCampaignsData, operator, dateRange]);
 
+    useEffect(() => {
+        if (!localStorage.getItem("accessToken")) {
+            navigate("/login");
+            window.location.reload();
+        }
+    }, []);
+
     const handleCampaignClick = async (campaignName) => {
         try {
             const { startDate, endDate } = dateRange[0];
