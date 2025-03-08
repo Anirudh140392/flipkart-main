@@ -1,0 +1,12 @@
+export const OPERATOR = {
+    FLIPKART: 'Flipkart',
+}
+
+export const PERFORMANCETABS = {
+    OVERVIEW: 'OVERVIEW',
+    PORTFOLIOS: 'PORTFOLIOS',
+    CAMPAIGNS: 'CAMPAIGNS',
+    ADGROUPS: 'ADGROUPS',
+    KEYWORDS: 'KEYWORDS',
+    PRODUCTS: 'PRODUCTS'
+}
