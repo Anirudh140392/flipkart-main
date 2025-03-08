@@ -3,7 +3,7 @@ import MuiDataTableComponent from "../../common/muidatatableComponent";
 import '../../../styles/campaignsComponent/campaignsComponent.less';
 import overviewContext from "../../../../store/overview/overviewContext";
 import { Switch, TextField, Box } from "@mui/material";
-import { useSearchParams } from "react-router";
+import { useSearchParams, useNavigate } from "react-router";
 import ColumnPercentageDataComponent from "../../common/columnPercentageDataComponent";
 import TrendsModal from "./modal/trendsModal";
 
@@ -16,7 +16,7 @@ const CampaignsComponent = () => {
 
     const [searchParams] = useSearchParams();
     const operator = searchParams.get("operator");
-
+    const navigate = useNavigate()
     const STATUS_OPTIONS = [
         { value: 1, label: 'Active' },
         { value: 0, label: 'Paused' }
