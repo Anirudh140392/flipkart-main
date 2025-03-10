@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { Link, useLocation } from "react-router";
 import AvatarIcon from "./assets/icons/navbar/avatarIcon";
@@ -14,6 +14,7 @@ import SmartControlIcon from "./assets/icons/navbar/smartControlIcon";
 import WalletIcon from "./assets/icons/navbar/walletIcon";
 import { OPERATOR } from "./assets/lib/constant";
 import { useNavigate } from "react-router";
+import authContext from "./store/auth/authContext";
 
 const RedirectLink = ({ url, label, pathName, onClick }) => {
 
@@ -76,24 +77,32 @@ const RedirectLink = ({ url, label, pathName, onClick }) => {
 }
 
 const Navbar = () => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const operatorType = queryParams.get('operator') || '';
+
     const location = useLocation();
     const [operatorTypeParams, setOperatorTypeParams] = useState(location.search)
     const [operatorName, setoperatorName] = useState('')
     const [pathName, setPathName] = useState(`/`);
     const navigate = useNavigate()
 
+    const { username } = useContext(authContext)
+
     useEffect(() => {
         setOperatorTypeParams(location.search);
         setPathName(`${location.pathname}${operatorTypeParams}`);
         setoperatorName(location.search.split("=")[1]);
     }, [location])
+
     const onLogoutClick = () => {
         localStorage.removeItem("accessToken")
         navigate("/login")
         window.location.reload()
     }
+
+    const formatCurrency = (amount) => {
+        if (!amount) return "₹0";
+        return "₹" + Number(amount).toLocaleString("en-IN");
+    };
+
     return (
         <React.Fragment>
             <div className="left-navbar-main-con">
@@ -107,7 +116,7 @@ const Navbar = () => {
                         iconHeight="30"
                         iconColor="#fff" />
                     <div className="profile-user-data">
-                        <h3>{localStorage.getItem("username")}</h3>
+                        <h3>{username}</h3>
                         <h5 className="cursor-pointer" onClick={onLogoutClick}>
                             <LogoutIcon
                                 iconClass="me-1"
@@ -125,7 +134,7 @@ const Navbar = () => {
                         iconColor="#fff" />
                     <div className="profile-user-data">
                         <h3>Wallet Balance</h3>
-                        <h2 className="mt-2 mb-0">₹ 0</h2>
+                        <h2 className="mt-2 mb-0">{localStorage.getItem("walletBalance") ? formatCurrency(localStorage.getItem("walletBalance")) : "N/A"}</h2>
                     </div>
                 </div>
                 <div className="redirection-navbar-con">
