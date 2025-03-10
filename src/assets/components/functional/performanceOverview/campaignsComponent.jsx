@@ -63,7 +63,7 @@ const CampaignsComponent = () => {
                         gap: 0.5,
                         cursor: "pointer"
                     }}
-                    onClick={() => handleCampaignClick(params.row.campaign_name)}
+                    onClick={() => handleCampaignClick(params.row.campaign_name_y)}
                 >
                     {params.row.campaign_name_y}
                 </Box>
@@ -79,7 +79,7 @@ const CampaignsComponent = () => {
             field: "status",
             headerName: "STATUS",
             minWidth: 100,
-            renderCell: (params) => <Switch checked={params.row.status} />,
+            renderCell: (params) => <Switch checked={params.row.status === 1 ? 1 : 0} />,
             align: "center",
             type: "singleSelect",
             valueOptions: STATUS_OPTIONS,
@@ -89,11 +89,11 @@ const CampaignsComponent = () => {
             field: "ad_type",
             headerName: "AD TYPE",
             minWidth: 100,
-            renderCell: (params) => (
-                <Box>
-                    {extractAdType(params.row.campaign_name_y)}
-                </Box>
-            )
+        },
+        {
+            field: "category",
+            headerName: "CATEGORY",
+            minWidth: 150,
         },
         {
             field: "cost_y",
@@ -156,7 +156,7 @@ const CampaignsComponent = () => {
             headerName: "CTR % CHANGE",
         },
         {
-            field: "views_x",
+            field: "views_y",
             headerName: "IMPRESSIONS",
             minWidth: 150,
             renderCell: (params) => (
@@ -256,6 +256,8 @@ const CampaignsComponent = () => {
         }
     };
 
+    const filteredRows = campaignsData?.data?campaignsData?.data.filter(row => row.campaign_name_y):[];
+
     return (
         <React.Fragment>
             <TrendsModal
@@ -266,7 +268,7 @@ const CampaignsComponent = () => {
                     <MuiDataTableComponent
                         isExport={true}
                         columns={CampaignsColumnFlipkart}
-                        data={campaignsData?.data} />
+                        data={filteredRows} />
                 </div>
             </div>
         </React.Fragment>
