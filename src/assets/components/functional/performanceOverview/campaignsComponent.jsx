@@ -26,7 +26,7 @@ const CampaignsComponent = () => {
         const [budget, setBudget] = useState(value);
 
         return (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 1, width: "100%", height: "100%" }}>
                 <TextField
                     variant="outlined"
                     disabled={true}
@@ -35,11 +35,17 @@ const CampaignsComponent = () => {
                     onChange={(e) => setBudget(e.target.value)}
                     sx={{
                         flex: 1,
+                        textAlign: "center", // Centers text inside input
                         "& .MuiOutlinedInput-root": {
                             borderRadius: "8px",
                             borderColor: "#d1d1d1",
+                            textAlign: "center", // Ensures inner text is centered
                         },
+                        "& .MuiInputBase-input": {
+                            textAlign: "center", // Ensures the text itself is centered
+                        }
                     }}
+
                 />
             </Box>
         );
@@ -256,7 +262,7 @@ const CampaignsComponent = () => {
         }
     };
 
-    const filteredRows = campaignsData?.data?campaignsData?.data.filter(row => row.campaign_name_y):[];
+    const filteredRows = campaignsData?.data ? campaignsData?.data.filter(row => row.campaign_name_y) : [];
 
     return (
         <React.Fragment>
