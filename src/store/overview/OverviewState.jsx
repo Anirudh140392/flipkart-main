@@ -26,7 +26,8 @@ const OverviewState = (props) => {
 
     const [campaignName, setCampaignName] = useState("")
 
-    const [loading, setLoading] = useState(false)
+    const [overviewLoading, setOverviewLoading] = useState(false)
+    const [campaignLoading, setCampaignLoading] = useState(false)
 
     const campaignSetter = (value) => {
         setCampaignName(value)
@@ -34,7 +35,7 @@ const OverviewState = (props) => {
 
     const fetchAPI = async (endpoint) => {
         if (!operator) return;
-        setLoading(true)
+        endpoint === "home" ? setOverviewLoading(true) : setCampaignLoading(true)
         const token = localStorage.getItem("accessToken");
         if (!token) {
             console.error("No access token found");
@@ -63,13 +64,12 @@ const OverviewState = (props) => {
             console.error(`Failed to fetch ${endpoint} data:`, error.message);
             return null;
         } finally {
-            setLoading(false)
+            endpoint === "home" ? setOverviewLoading(false) : setCampaignLoading(false)
         }
     };
 
     const fetchKeywordsAPI = async (campaignName) => {
         if (!operator) return;
-        setLoading(true)
         const token = localStorage.getItem("accessToken");
         if (!token) {
             console.error("No access token found");
@@ -96,8 +96,6 @@ const OverviewState = (props) => {
         } catch (error) {
             console.error(`Failed to fetch keywords data:`, error.message);
             return null;
-        } finally {
-            setLoading(false)
         }
     };
 
@@ -165,11 +163,12 @@ const OverviewState = (props) => {
             getBrandsData,
             campaignsData,
             campaignSetter,
-            loading,
+            overviewLoading,
+            campaignLoading,
             formatDate,
             brands
         }),
-        [dateRange, overviewData, keywordsData, campaignsData, campaignSetter, loading, brands]
+        [dateRange, overviewData, keywordsData, campaignsData, campaignSetter, overviewLoading, campaignLoading, brands]
     );
 
     return (

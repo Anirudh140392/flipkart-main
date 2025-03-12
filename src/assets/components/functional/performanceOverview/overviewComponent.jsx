@@ -1,39 +1,18 @@
 import React, { useEffect } from "react";
 import { useContext } from "react";
 import OverviewFunnelChart from "./overview/overviewFunnelChart";
-import ChartComponent from "../../common/chartComponent";
 import MuiDataTableComponent from "../../common/muidatatableComponent";
-import ErrorBoundary from "../../common/erroBoundryComponent";
 import ExcelDownloadButton from "../../molecules/excelDownloadButton";
 import SelectFieldComponent from "../../molecules/selectFieldComponent";
-import ActiveRulesComponent from "./overview/activeRulesComponent";
-import AlertsComponent from "./overview/alertsComponent";
-import GoalComponent from "./overview/goalComponent";
 import overviewContext from "../../../../store/overview/overviewContext";
 import { useSearchParams } from "react-router";
+import ColumnPercentageDataComponent from "../../common/columnPercentageDataComponent";
 
 const OverviewComponent = () => {
     const dataContext = useContext(overviewContext)
     const { overviewData, getOverviewData, dateRange, formatDate } = dataContext
     const [searchParams] = useSearchParams();
     const operator = searchParams.get("operator");
-    const sourceSystemData = [
-        ['Days', 'SMS', 'Email'],
-        ['Day 1', 10, 8],
-        ['Day 2', 15, 12],
-        ['Day 3', 12, 23],
-        ['Day 4', 18, 14],
-        ['Day 5', 25, 20],
-        ['Day 6', 16, 30],
-        ['Day 7', 22, 28],
-    ];
-
-    const chartOptions = {
-        curveType: "function",
-        legend: { position: "bottom" },
-        'chartArea': { 'width': '85%' },
-        pointSize: 5,
-    }
 
     const selectOptions = [
         { label: 'All', value: 'ALL' },
@@ -42,18 +21,134 @@ const OverviewComponent = () => {
         { label: 'SD', value: 'SD' },
     ]
 
-    const OverviewColumnsBlinkit = [
-        { field: "campaign_tags", headerName: "Campaign Tags", minWidth: 200 },
-        { field: "estimated_budget_consumed_x", headerName: "Budget Consumed", minWidth: 200 },
-        { field: "total_sales_x", headerName: "Total Sales", minWidth: 200 },
-        { field: "impressions_x", headerName: "Impressions", minWidth: 200 },
-        { field: "cpm_x", headerName: "CPM", type: "number", minWidth: 200, align: "left", headerAlign: "left" },
-        { field: "roas_x", headerName: "ROAS", type: "number", minWidth: 200, align: "left", headerAlign: "left" }
+    const CategoryColumnsBlinkit = [
+        { field: "category", headerName: "CATEGORY", minWidth: 200 },
+        {
+            field: "cost",
+            headerName: "SPENDS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.cost} percentValue={params.row.cost_pct_change} />
+            ),
+        },
+        {
+            field: "cost_pct_change",
+            headerName: "SPENDS % CHANGE",
+        },
+        {
+            field: "total_converted_revenue",
+            headerName: "SALES",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.total_converted_revenue} percentValue={params.row.total_converted_revenue_pct_change} />
+            ),
+        },
+        {
+            field: "total_converted_revenue_pct_change",
+            headerName: "SALES % CHANGE",
+        },
+        {
+            field: "clicks",
+            headerName: "CLICKS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.clicks} percentValue={params.row.clicks_pct_change} />
+            ),
+        },
+        {
+            field: "clicks_pct_change",
+            headerName: "CLICKS % CHANGE",
+        },
+        {
+            field: "roi",
+            headerName: "ROAS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.roi} percentValue={params.row.roi_pct_change} />
+            ),
+        },
+        {
+            field: "roi_pct_change",
+            headerName: "ROAS % CHANGE",
+        },
+        {
+            field: "views",
+            headerName: "IMPRESSIONS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.views} percentValue={params.row.views_pct_change} />
+            ),
+        },
+        {
+            field: "views_pct_change",
+            headerName: "IMPRESSIONS % CHANGE",
+        },
     ]
 
-    const Callback = (val) => {
-        setImageData(val)
-    }
+    const SubCategoryColumnsBlinkit = [
+        { field: "sub_category", headerName: "SUBCATEGORY", minWidth: 200 },
+        { field: "category", headerName: "CATEGORY", minWidth: 200 },
+        {
+            field: "cost",
+            headerName: "SPENDS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.cost} percentValue={params.row.cost_pct_change} />
+            ),
+        },
+        {
+            field: "cost_pct_change",
+            headerName: "SPENDS % CHANGE",
+        },
+        {
+            field: "total_converted_revenue",
+            headerName: "SALES",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.total_converted_revenue} percentValue={params.row.total_converted_revenue_pct_change} />
+            ),
+        },
+        {
+            field: "total_converted_revenue_pct_change",
+            headerName: "SALES % CHANGE",
+        },
+        {
+            field: "clicks",
+            headerName: "CLICKS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.clicks} percentValue={params.row.clicks_pct_change} />
+            ),
+        },
+        {
+            field: "clicks_pct_change",
+            headerName: "CLICKS % CHANGE",
+        },
+        {
+            field: "roi",
+            headerName: "ROAS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.roi} percentValue={params.row.roi_pct_change} />
+            ),
+        },
+        {
+            field: "roi_pct_change",
+            headerName: "ROAS % CHANGE",
+        },
+        {
+            field: "views",
+            headerName: "IMPRESSIONS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.views} percentValue={params.row.views_pct_change} />
+            ),
+        },
+        {
+            field: "views_pct_change",
+            headerName: "IMPRESSIONS % CHANGE",
+        },
+    ]
 
     useEffect(() => {
         if (localStorage.getItem("accessToken")) {
@@ -104,73 +199,62 @@ const OverviewComponent = () => {
                 <div className="row">
                     <div className="col-xl-4 col-lg-4 d-md-flex flex-md-column">
                         <div className="svg-data-filter-con">
-                            <p>Compared to {daysDifference} days ago. {`${formatDate(dateRange[0].startDate)}-${formatDate(dateRange[0].endDate)}`}</p>
-                            <SelectFieldComponent
-                                isFieldLabelRequired={false}
-                                areaLabel="user-detail"
-                                fieldClass={'filter-select ms-3'}
-                                isDisabled={false}
-                                options={selectOptions}
-                                onChange={(e) => setAdImpressionData(e.target.value)} />
+                            <p>
+                                Compared to {daysDifference} days ago.{" "}
+                                {`${formatDate(dateRange[0].startDate)}-`}
+                                <br />
+                                {`${formatDate(dateRange[0].endDate)}`}
+                            </p>
+
                         </div>
-                        <OverviewFunnelChart />
+                        <OverviewFunnelChart data={overviewData?.funnel} />
                     </div>
                     <div className="col-lg-8">
                         <div className="row">
                             <div className="col-md-4">
                                 <CTRWidget
                                     firstHeadingText="Impressions"
-                                    firstHeadingData={`${overviewData?.funnel?.total_impressions ? toMillions(overviewData?.funnel?.total_impressions) : "-"}`}
-                                    isSecondHeadingRequired={false} />
+                                    firstHeadingData={`${overviewData?.metrics_data?.Impressions ? toMillions(overviewData?.metrics_data?.Impressions) : "-"}`}
+                                    secondHeadingText="Clicks"
+                                    secondHeadingData={`${overviewData?.metrics_data?.Clicks ? toThousands(overviewData?.metrics_data?.Clicks) : "-"}`} />
                             </div>
                             <div className="col-md-4">
                                 <CTRWidget
-                                    firstHeadingText="CPM"
-                                    firstHeadingData={`${overviewData?.funnel?.avg_cpm ? overviewData?.funnel?.avg_cpm : "-"}`}
-                                    secondHeadingText="Orders"
-                                    secondHeadingData={`${overviewData?.funnel?.total_orders ? toThousands(overviewData?.funnel?.total_orders) : "-"}`} />
+                                    firstHeadingText="Orders"
+                                    firstHeadingData={`${overviewData?.metrics_data?.Orders ? toThousands(overviewData?.metrics_data?.Orders) : "-"}`}
+                                    secondHeadingText="Sales"
+                                    secondHeadingData={`${overviewData?.metrics_data?.Sales ? toMillions(overviewData?.metrics_data?.Sales) : "-"}`} />
                             </div>
                             <div className="col-md-4">
                                 <CTRWidget
-                                    firstHeadingText="Total Spends"
-                                    firstHeadingData={`${overviewData?.funnel?.total_spends ? toMillions(overviewData?.funnel?.total_spends) : "-"}`}
+                                    firstHeadingText="CTR"
+                                    firstHeadingData={`${overviewData?.metrics_data?.CTR ? overviewData?.metrics_data?.CTR : "-"}`}
                                     secondHeadingText="ROAS"
-                                    secondHeadingData={`${overviewData?.funnel?.avg_roas ? overviewData?.funnel?.avg_roas : "-"}`} />
+                                    secondHeadingData={`${overviewData?.metrics_data?.ROI ? overviewData?.metrics_data?.ROI : "-"}`} />
                             </div>
                         </div>
                         <div className="datatable-con mt-4">
                             <MuiDataTableComponent
-                                columns={OverviewColumnsBlinkit}
+                                isExport={true}
+                                columns={CategoryColumnsBlinkit}
                                 data={overviewData?.cat_table} />
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="shadow-box-con top-overview-con">
+            {/*<div className="shadow-box-con top-overview-con">
                 <ChartComponent
                     chartType={'AreaChart'}
                     chartData={sourceSystemData}
                     chartWidth={"100%"}
                     chartHeight="350px"
                     options={chartOptions} />
-            </div>
+            </div>*/}
             <div className="agrregated-shadow-box-con aggregated-view-con">
                 <div className="px-3 py-2 border-bottom">
                     <div className="row">
                         <div className="col-lg-6">
-                            <h5 className="mb-0">Agrregated View</h5>
-                        </div>
-                        <div className="col-lg-6 text-end">
-                            <SelectFieldComponent
-                                isFieldLabelRequired={false}
-                                areaLabel="user-detail"
-                                fieldClass={'filter-select me-3'}
-                                isDisabled={false}
-                                options={selectOptions}
-                                onChange={(e) => setAdImpressionData(e.target.value)} />
-                            <ExcelDownloadButton
-                                buttonClass="excel-button bg-dark text-white border-dark"
-                                buttonLabel="Export" />
+                            <h5 className="mb-0">Subcategory View</h5>
                         </div>
                     </div>
                     <div>
@@ -178,11 +262,12 @@ const OverviewComponent = () => {
                 </div>
                 <div className="datatable-con">
                     <MuiDataTableComponent
-                        columns={OverviewColumnsBlinkit}
-                        data={overviewData?.cat_table} />
+                        isExport={true}
+                        columns={SubCategoryColumnsBlinkit}
+                        data={overviewData?.sub_cat_table} />
                 </div>
             </div>
-            <ErrorBoundary>
+            {/*<ErrorBoundary>
                 <GoalComponent />
             </ErrorBoundary>
             <div className="row">
@@ -194,7 +279,7 @@ const OverviewComponent = () => {
                 <div className="col-lg-6 col-md-12 col-sm-12 col-12">
                     <ActiveRulesComponent />
                 </div>
-            </div>
+    </div>*/}
         </React.Fragment>
     )
 }

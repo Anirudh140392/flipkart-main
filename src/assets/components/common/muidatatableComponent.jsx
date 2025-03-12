@@ -32,7 +32,7 @@ const CustomFilterPanel = (props) => {
 };
 
 const MuiDataTableComponent = (props) => {
-    const { loading } = useContext(overviewContext)
+    const { overviewLoading, campaignLoading } = useContext(overviewContext)
     const { rulesLoading } = useContext(rulesContext)
     const { historyLoading } = useContext(historyContext)
     const { columns, data, isExport } = props;
@@ -81,7 +81,7 @@ const MuiDataTableComponent = (props) => {
     );
     return (
         <Box sx={{ height: "100%", overflowY: "auto", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            {(rulesLoading || loading || historyLoading) ? (<CircularProgress />) : (
+            {(rulesLoading || overviewLoading || historyLoading || campaignLoading) ? (<CircularProgress />) : (
                 <DataGrid
                     rows={data}
                     columns={columns}
@@ -115,7 +115,12 @@ const MuiDataTableComponent = (props) => {
                         roas_diff: false,
                         roi_diff: false,
                         ctr_diff: false,
-                        views_diff: false
+                        views_diff: false,
+                        cost_pct_change: false,
+                        total_converted_revenue_pct_change: false,
+                        clicks_pct_change: false,
+                        roi_pct_change: false,
+                        views_pct_change: false
                     }}
                 />
             )}
