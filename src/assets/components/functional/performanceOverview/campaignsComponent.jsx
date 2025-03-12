@@ -26,7 +26,7 @@ const CampaignsComponent = () => {
         const [budget, setBudget] = useState(value);
 
         return (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 1, width: "100%", height: "100%" }}>
                 <TextField
                     variant="outlined"
                     disabled={true}
@@ -35,10 +35,15 @@ const CampaignsComponent = () => {
                     onChange={(e) => setBudget(e.target.value)}
                     sx={{
                         flex: 1,
+                        textAlign: "center",
                         "& .MuiOutlinedInput-root": {
                             borderRadius: "8px",
                             borderColor: "#d1d1d1",
+                            textAlign: "center",
                         },
+                        "& .MuiInputBase-input": {
+                            textAlign: "center",
+                        }
                     }}
                 />
             </Box>
@@ -93,6 +98,11 @@ const CampaignsComponent = () => {
         {
             field: "category",
             headerName: "CATEGORY",
+            minWidth: 150,
+        },
+        {
+            field: "sub_category",
+            headerName: "SUB CATEGORY",
             minWidth: 150,
         },
         {
@@ -256,7 +266,7 @@ const CampaignsComponent = () => {
         }
     };
 
-    const filteredRows = campaignsData?.data?campaignsData?.data.filter(row => row.campaign_name_y):[];
+    //const filteredRows = campaignsData?.data ? campaignsData?.data.filter(row => row.campaign_name_y) : [];
 
     return (
         <React.Fragment>
@@ -268,7 +278,7 @@ const CampaignsComponent = () => {
                     <MuiDataTableComponent
                         isExport={true}
                         columns={CampaignsColumnFlipkart}
-                        data={filteredRows} />
+                        data={campaignsData?.data} />
                 </div>
             </div>
         </React.Fragment>

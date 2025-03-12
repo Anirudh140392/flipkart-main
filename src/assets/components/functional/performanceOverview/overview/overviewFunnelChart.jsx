@@ -1,21 +1,28 @@
 import React from "react";
 import { FunnelChart, Funnel, Tooltip, LabelList, ResponsiveContainer } from "recharts";
+import { CircularProgress } from "@mui/material";
 
-const OverviewFunnelChart = () => {
-    const data = [
-        { value: 100, name: "Impressions", fill: "#4A90E2" },
-        { value: 80, name: "Ad Sales", fill: "#5EAEFF" },
-        { value: 50, name: "Ad Spends", fill: "#4ACFAC" },
-        { value: 40, name: "Clicks", fill: "#8BC34A" },
-        { value: 26, name: "Orders", fill: "#C0E57B" },
-    ];
+const OverviewFunnelChart = ({ data }) => {
+
+    if (!data || !Array.isArray(data) || data.length === 0) {
+        return <CircularProgress sx={{ margin: "auto" }} />;
+    }
+    const proportions = [100, 80, 50, 40, 26];
+    const processedData = data.map((item, index) => ({
+        ...item,
+        scaledValue: proportions[index] || 26
+    }));
 
     return (
         <div style={{ width: 300, height: 400, margin: "auto" }}>
             <ResponsiveContainer width="100%" height="100%">
                 <FunnelChart>
-                    <Tooltip />
-                    <Funnel dataKey="value" data={data} isAnimationActive>
+                    <Tooltip
+                        formatter={(value, name, props) => {
+                            return [`${props.payload.value}`, name];
+                        }}
+                    />
+                    <Funnel dataKey="scaledValue" data={processedData} isAnimationActive>
                         <LabelList position="center" fontSize='12px' fill="#000" stroke="none" dataKey="name" />
                     </Funnel>
                 </FunnelChart>
