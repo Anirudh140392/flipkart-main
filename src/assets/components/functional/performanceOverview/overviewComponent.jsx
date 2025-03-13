@@ -86,8 +86,8 @@ const OverviewComponent = () => {
     ]
 
     const SubCategoryColumnsBlinkit = [
-        { field: "sub_category", headerName: "SUBCATEGORY", minWidth: 200 },
         { field: "category", headerName: "CATEGORY", minWidth: 200 },
+        { field: "sub_category", headerName: "SUBCATEGORY", minWidth: 200 },
         {
             field: "cost",
             headerName: "SPENDS",
@@ -227,17 +227,26 @@ const OverviewComponent = () => {
                             </div>
                             <div className="col-md-4">
                                 <CTRWidget
-                                    firstHeadingText="CTR"
-                                    firstHeadingData={`${overviewData?.metrics_data?.CTR ? overviewData?.metrics_data?.CTR : "-"}`}
-                                    secondHeadingText="ROAS"
-                                    secondHeadingData={`${overviewData?.metrics_data?.ROI ? overviewData?.metrics_data?.ROI : "-"}`} />
+                                    firstHeadingText="ROAS"
+                                    firstHeadingData={`${overviewData?.metrics_data?.ROI ? overviewData?.metrics_data?.ROI : "-"}`} />
                             </div>
                         </div>
-                        <div className="datatable-con mt-4">
-                            <MuiDataTableComponent
-                                isExport={true}
-                                columns={CategoryColumnsBlinkit}
-                                data={overviewData?.cat_table} />
+                        <div className="agrregated-shadow-box-con aggregated-view-con mt-4">
+                            <div className="px-3 py-2 border-bottom">
+                                <div className="row">
+                                    <div className="col-lg-6">
+                                        <h5 className="mb-0">Category View</h5>
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            <div className="datatable-con">
+                                <MuiDataTableComponent
+                                    isExport={true}
+                                    columns={CategoryColumnsBlinkit}
+                                    data={overviewData?.cat_table} />
+                            </div>
                         </div>
                     </div>
                 </div>
