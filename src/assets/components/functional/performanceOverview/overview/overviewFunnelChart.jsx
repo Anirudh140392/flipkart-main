@@ -24,6 +24,7 @@ const OverviewFunnelChart = ({ data }) => {
                     />
                     <Funnel dataKey="scaledValue" data={processedData} isAnimationActive>
                         <LabelList position="center" fontSize='12px' fill="#000" stroke="none" dataKey="name" />
+                        {/*<LabelList position="right" fontSize='12px' fill="#000" stroke="none" dataKey="value" />*/}
                     </Funnel>
                 </FunnelChart>
             </ResponsiveContainer>
