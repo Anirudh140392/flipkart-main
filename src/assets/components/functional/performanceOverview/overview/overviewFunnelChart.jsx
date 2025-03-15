@@ -1,8 +1,15 @@
 import React from "react";
-import { FunnelChart, Funnel, Tooltip, LabelList, ResponsiveContainer } from "recharts";
+import { FunnelChart, Funnel, LabelList, ResponsiveContainer } from "recharts";
 import { CircularProgress } from "@mui/material";
 
 const OverviewFunnelChart = ({ data }) => {
+
+    const formatNumber = (num) => {
+        if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1) + "B";
+        if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
+        if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
+        return num;
+    };
 
     if (!data || !Array.isArray(data) || data.length === 0) {
         return <CircularProgress sx={{ margin: "auto" }} />;
@@ -10,21 +17,17 @@ const OverviewFunnelChart = ({ data }) => {
     const proportions = [100, 80, 50, 40, 26];
     const processedData = data.map((item, index) => ({
         ...item,
-        scaledValue: proportions[index] || 26
+        scaledValue: proportions[index] || 26,
+        formattedValue: formatNumber(item.value)
     }));
 
     return (
         <div style={{ width: 300, height: 400, margin: "auto" }}>
             <ResponsiveContainer width="100%" height="100%">
                 <FunnelChart>
-                    <Tooltip
-                        formatter={(value, name, props) => {
-                            return [`${props.payload.value}`, name];
-                        }}
-                    />
                     <Funnel dataKey="scaledValue" data={processedData} isAnimationActive>
                         <LabelList position="center" fontSize='12px' fill="#000" stroke="none" dataKey="name" />
-                        {/*<LabelList position="right" fontSize='12px' fill="#000" stroke="none" dataKey="value" />*/}
+                        <LabelList position="center" dy={15} fontSize='12px' fill="#000" stroke="none" dataKey="formattedValue" />
                     </Funnel>
                 </FunnelChart>
             </ResponsiveContainer>
