@@ -120,7 +120,10 @@ const MuiDataTableComponent = (props) => {
                         total_converted_revenue_pct_change: false,
                         clicks_pct_change: false,
                         roi_pct_change: false,
-                        views_pct_change: false
+                        views_pct_change: false,
+                        aov_pct_change:false,
+                        cpc_pct_change:false,
+                        acos_pct_change:false
                     }}
                 />
             )}

@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { useContext } from "react";
 import OverviewFunnelChart from "./overview/overviewFunnelChart";
 import MuiDataTableComponent from "../../common/muidatatableComponent";
-import ExcelDownloadButton from "../../molecules/excelDownloadButton";
-import SelectFieldComponent from "../../molecules/selectFieldComponent";
 import overviewContext from "../../../../store/overview/overviewContext";
 import { useSearchParams } from "react-router";
 import ColumnPercentageDataComponent from "../../common/columnPercentageDataComponent";
@@ -21,7 +19,7 @@ const OverviewComponent = () => {
         { label: 'SD', value: 'SD' },
     ]
 
-    const CategoryColumnsBlinkit = [
+    const CategoryColumns = [
         { field: "category", headerName: "CATEGORY", minWidth: 200 },
         {
             field: "cost",
@@ -83,9 +81,45 @@ const OverviewComponent = () => {
             field: "views_pct_change",
             headerName: "IMPRESSIONS % CHANGE",
         },
+        {
+            field: "aov",
+            headerName: "AOV",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.aov} percentValue={params.row.aov_pct_change} />
+            ),
+        },
+        {
+            field: "aov_pct_change",
+            headerName: "AOV % CHANGE",
+        },
+        {
+            field: "cpc",
+            headerName: "CPC",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.cpc} percentValue={params.row.cpc_pct_change} />
+            ),
+        },
+        {
+            field: "cpc_pct_change",
+            headerName: "CPC % CHANGE",
+        },
+        {
+            field: "acos",
+            headerName: "ACOS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.acos} percentValue={params.row.acos_pct_change} />
+            ),
+        },
+        {
+            field: "acos_pct_change",
+            headerName: "ACOS % CHANGE",
+        },
     ]
 
-    const SubCategoryColumnsBlinkit = [
+    const SubCategoryColumns = [
         { field: "category", headerName: "CATEGORY", minWidth: 200 },
         { field: "sub_category", headerName: "SUBCATEGORY", minWidth: 200 },
         {
@@ -147,6 +181,42 @@ const OverviewComponent = () => {
         {
             field: "views_pct_change",
             headerName: "IMPRESSIONS % CHANGE",
+        },
+        {
+            field: "aov",
+            headerName: "AOV",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.aov} percentValue={params.row.aov_pct_change} />
+            ),
+        },
+        {
+            field: "aov_pct_change",
+            headerName: "AOV % CHANGE",
+        },
+        {
+            field: "cpc",
+            headerName: "CPC",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.cpc} percentValue={params.row.cpc_pct_change} />
+            ),
+        },
+        {
+            field: "cpc_pct_change",
+            headerName: "CPC % CHANGE",
+        },
+        {
+            field: "acos",
+            headerName: "ACOS",
+            minWidth: 200,
+            renderCell: (params) => (
+                <ColumnPercentageDataComponent mainValue={params.row.acos} percentValue={params.row.acos_pct_change} />
+            ),
+        },
+        {
+            field: "acos_pct_change",
+            headerName: "ACOS % CHANGE",
         },
     ]
 
@@ -244,21 +314,13 @@ const OverviewComponent = () => {
                             <div className="datatable-con">
                                 <MuiDataTableComponent
                                     isExport={true}
-                                    columns={CategoryColumnsBlinkit}
+                                    columns={CategoryColumns}
                                     data={overviewData?.cat_table} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/*<div className="shadow-box-con top-overview-con">
-                <ChartComponent
-                    chartType={'AreaChart'}
-                    chartData={sourceSystemData}
-                    chartWidth={"100%"}
-                    chartHeight="350px"
-                    options={chartOptions} />
-            </div>*/}
             <div className="agrregated-shadow-box-con aggregated-view-con">
                 <div className="px-3 py-2 border-bottom">
                     <div className="row">
@@ -272,23 +334,10 @@ const OverviewComponent = () => {
                 <div className="datatable-con">
                     <MuiDataTableComponent
                         isExport={true}
-                        columns={SubCategoryColumnsBlinkit}
+                        columns={SubCategoryColumns}
                         data={overviewData?.sub_cat_table} />
                 </div>
             </div>
-            {/*<ErrorBoundary>
-                <GoalComponent />
-            </ErrorBoundary>
-            <div className="row">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                    <ErrorBoundary>
-                        <AlertsComponent />
-                    </ErrorBoundary>
-                </div>
-                <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                    <ActiveRulesComponent />
-                </div>
-    </div>*/}
         </React.Fragment>
     )
 }
